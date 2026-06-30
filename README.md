@@ -57,7 +57,7 @@ Launch Template (LT1)
 
 A base EC2 instance (`server1`) was configured with Apache and a custom status page, then saved as a custom AMI (`server1-backup`) to use as a golden image for all instances launched by the ASG.
 
-![Custom AMI](screenshots/01-custom-ami.png)
+![Custom AMI](01-custom-ami.png)
 
 ---
 
@@ -65,7 +65,7 @@ A base EC2 instance (`server1`) was configured with Apache and a custom status p
 
 Launch Template `LT1` was created using the custom AMI. It defines the instance blueprint: AMI ID, key pair (`server`), and security group — so every instance launched by the ASG is identical and pre-configured.
 
-![Launch Template](screenshots/02-launch-template.png)
+![Launch Template](02-launch-template.png)
 
 ---
 
@@ -73,7 +73,7 @@ Launch Template `LT1` was created using the custom AMI. It defines the instance 
 
 The primary instance type is set to `t3.micro` (2 vCPU, 1 GiB Memory), selected manually in the ASG configuration.
 
-![Instance Type](screenshots/03-instance-type.png)
+![Instance Type](03-instance-type.png)
 
 ---
 
@@ -81,7 +81,7 @@ The primary instance type is set to `t3.micro` (2 vCPU, 1 GiB Memory), selected 
 
 `ASG1` was created using `LT1`. The group is at desired capacity with all 4 instances healthy.
 
-![ASG Overview](screenshots/04-asg-overview.png)
+![ASG Overview](04-asg-overview.png)
 
 ---
 
@@ -89,7 +89,7 @@ The primary instance type is set to `t3.micro` (2 vCPU, 1 GiB Memory), selected 
 
 Group size is configured with Desired: 4, Min: 2, Max: 5. The ASG will never go below 2 instances and will scale up to 5 under load.
 
-![ASG Group Size](screenshots/05-asg-group-size.png)
+![ASG Group Size](05-asg-group-size.png)
 
 ---
 
@@ -97,7 +97,7 @@ Group size is configured with Desired: 4, Min: 2, Max: 5. The ASG will never go 
 
 The ASG is spread across two subnets in `ap-south-1a` and `ap-south-1b` with **Balanced best effort** AZ distribution — if one zone fails, instances launch in the other.
 
-![Network AZ Config](screenshots/06-network-az.png)
+![Network AZ Config](06-network-az.png)
 
 ---
 
@@ -105,7 +105,7 @@ The ASG is spread across two subnets in `ap-south-1a` and `ap-south-1b` with **B
 
 Target Group `TG1` (HTTP, attached to `LB1`) is registered with the ASG so every new instance automatically joins the load balancer.
 
-![LB Attached to ASG](screenshots/07-lb-attached-asg.png)
+![LB Attached to ASG](07-lb-attached-asg.png)
 
 ---
 
@@ -113,7 +113,7 @@ Target Group `TG1` (HTTP, attached to `LB1`) is registered with the ASG so every
 
 ELB health checks are enabled on the ASG with a 300-second grace period — giving new instances time to boot and initialize before health checks begin.
 
-![Health Check Config](screenshots/08-health-check-config.png)
+![Health Check Config](08-health-check-config.png)
 
 ---
 
@@ -121,7 +121,7 @@ ELB health checks are enabled on the ASG with a 300-second grace period — givi
 
 `LB1` is Active, Internet-facing, application type, spanning 2 Availability Zones. The metrics panel shows live request count and response time.
 
-![Load Balancer Active](screenshots/09-load-balancer-active.png)
+![Load Balancer Active](09-load-balancer-active.png)
 
 ---
 
@@ -129,7 +129,7 @@ ELB health checks are enabled on the ASG with a 300-second grace period — givi
 
 LB1 details showing the public DNS name used to access the application: `LB1-238032626.ap-south-1.elb.amazonaws.com`
 
-![LB Details DNS](screenshots/10-lb-details-dns.png)
+![LB Details DNS](10-lb-details-dns.png)
 
 ---
 
@@ -137,7 +137,7 @@ LB1 details showing the public DNS name used to access the application: `LB1-238
 
 LB1 listens on HTTP:80 and forwards 100% of traffic to Target Group `TG1`.
 
-![LB Listeners Rules](screenshots/11-lb-listeners-rules.png)
+![LB Listeners Rules](11-lb-listeners-rules.png)
 
 ---
 
@@ -145,7 +145,7 @@ LB1 listens on HTTP:80 and forwards 100% of traffic to Target Group `TG1`.
 
 LB1 is mapped across both AZ subnets (`ap-south-1a` and `ap-south-1b`) ensuring traffic reaches instances in either zone.
 
-![LB Network Mapping](screenshots/12-lb-network-mapping.png)
+![LB Network Mapping](12-lb-network-mapping.png)
 
 ---
 
@@ -153,7 +153,7 @@ LB1 is mapped across both AZ subnets (`ap-south-1a` and `ap-south-1b`) ensuring 
 
 `TG1` shows **5/5 healthy targets** on HTTP:80 — all instances passing health checks with 0 unhealthy.
 
-![Target Group Health](screenshots/13-target-group-health.png)
+![Target Group Health](13-target-group-health.png)
 
 ---
 
@@ -177,7 +177,7 @@ The activity log shows the complete scaling cycle:
 - **Scale-out**: `AlarmHigh` fired → ASG launched new instances (capacity increased)
 - **Scale-in**: `AlarmLow` fired → ASG terminated instances step by step (4→3→2) back toward minimum
 
-![Scaling Activity](screenshots/14-scaling-activity.png)
+![Scaling Activity](14-scaling-activity.png)
 
 ---
 
@@ -185,7 +185,7 @@ The activity log shows the complete scaling cycle:
 
 The instances list shows the result of the scaling cycle — 5 instances total, 4 running across both AZs, 1 terminated as part of scale-in. All running instances show **3/3 status checks passed**.
 
-![EC2 Instances](screenshots/15-ec2-instances.png)
+![EC2 Instances](15-ec2-instances.png)
 
 ---
 
@@ -193,7 +193,7 @@ The instances list shows the result of the scaling cycle — 5 instances total, 
 
 The custom status page served through the Application Load Balancer DNS name, confirming end-to-end traffic flow from the internet through the ALB to the EC2 instances.
 
-![Browser via ALB](screenshots/16-browser-alb.png)
+![Browser via ALB](16-browser-alb.png)
 
 ---
 
@@ -213,7 +213,7 @@ The custom status page served through the Application Load Balancer DNS name, co
 ```
 .
 ├── README.md
-├── screenshots/
+├── 
 │   ├── 01-custom-ami.png
 │   ├── 02-launch-template.png
 │   ├── 03-instance-type.png
